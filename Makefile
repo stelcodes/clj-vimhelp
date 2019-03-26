@@ -1,4 +1,6 @@
-.PHONY: test ancient repl native-image install uninstall clean
+.PHONY: test ancient repl native-image docker-build install uninstall clean
+
+VERSION=$(shell cat resources/version)
 
 test:
 	clojure -A:dev:test
@@ -16,6 +18,9 @@ native-image: target/vimhelp
 
 install: target/vimhelp
 	\cp -pf target/vimhelp /usr/local/bin
+
+docker-build: target/vimhelp
+	docker build -t uochan/vimhelp:$(VERSION) .
 
 uninstall: /usr/local/bin/vimhelp
 	\rm -f /usr/local/bin/vimhelp
